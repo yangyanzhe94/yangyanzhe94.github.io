@@ -3,12 +3,12 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Yang Yanzhe的Blog
+title: Yang Yanzhe
 subtitle:
-description: Start with Android,not end with Android.
+description: do good, have fun.
 keywords: Android
 author: Yang Yanzhe
-language:
+language: en
 timezone:
 
 # URL
@@ -77,8 +77,8 @@ theme: next
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
-deploy: master
-  type:git
-  repo:git@github.com:yangyanzhe94/yangyanzhe94.github.io.git
-  branch:master
-  message
+deploy:
+  type: git
+  repo: git@github.com:yangyanzhe94/yangyanzhe94.github.io.git
+  branch: master
+  message:
