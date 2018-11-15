@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.4.1" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.4.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.4.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.1" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.4.1',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="一、安装shadowsocks-qt5 访问 https://github.com/shadowsocks/shadowsocks-qt5/releases   下载最新版本以.AppImage为结尾的文件  通过代码赋予该文件执行权限，具体问文件名根据下载时最新版决定 12chmod a+x Shadowsocks-Qt5-3.0.0-x86_64.AppImage./Shadowsocks-Q">
+<meta name="keywords" content="ubuntu">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ubuntu 18.041 使用qt5 并实现 PAC全局代理">
+<meta property="og:url" content="http://yoursite.com/2018/11/15/PAC全局代理/index.html">
+<meta property="og:site_name" content="Yang Yanzhe">
+<meta property="og:description" content="一、安装shadowsocks-qt5 访问 https://github.com/shadowsocks/shadowsocks-qt5/releases   下载最新版本以.AppImage为结尾的文件  通过代码赋予该文件执行权限，具体问文件名根据下载时最新版决定 12chmod a+x Shadowsocks-Qt5-3.0.0-x86_64.AppImage./Shadowsocks-Q">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://pd0s0lhel.bkt.clouddn.com/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20181115144753.png">
+<meta property="og:image" content="http://pd0s0lhel.bkt.clouddn.com/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20181115145117.png">
+<meta property="og:image" content="http://pd0s0lhel.bkt.clouddn.com/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20181115150007.png">
+<meta property="og:image" content="http://pd0s0lhel.bkt.clouddn.com/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20181115154151.png">
+<meta property="og:updated_time" content="2018-11-15T08:10:07.466Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Ubuntu 18.041 使用qt5 并实现 PAC全局代理">
+<meta name="twitter:description" content="一、安装shadowsocks-qt5 访问 https://github.com/shadowsocks/shadowsocks-qt5/releases   下载最新版本以.AppImage为结尾的文件  通过代码赋予该文件执行权限，具体问文件名根据下载时最新版决定 12chmod a+x Shadowsocks-Qt5-3.0.0-x86_64.AppImage./Shadowsocks-Q">
+<meta name="twitter:image" content="http://pd0s0lhel.bkt.clouddn.com/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20181115144753.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/11/15/PAC全局代理/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Ubuntu 18.041 使用qt5 并实现 PAC全局代理 | Yang Yanzhe</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Yang Yanzhe</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/15/PAC全局代理/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Yang Yanzhe">
+      <meta itemprop="description" content="do good, have fun.">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yang Yanzhe">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Ubuntu 18.041 使用qt5 并实现 PAC全局代理
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-11-15 15:57:44 / Modified: 16:10:07" itemprop="dateCreated datePublished" datetime="2018-11-15T15:57:44+08:00">2018-11-15</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="一、安装shadowsocks-qt5"><a href="#一、安装shadowsocks-qt5" class="headerlink" title="一、安装shadowsocks-qt5"></a>一、安装shadowsocks-qt5</h1><ul>
+<li><p>访问 <a href="https://github.com/shadowsocks/shadowsocks-qt5/releases" target="_blank" rel="noopener">https://github.com/shadowsocks/shadowsocks-qt5/releases</a> </p>
+</li>
+<li><p>下载最新版本以.AppImage为结尾的文件</p>
+</li>
+<li><p>通过代码赋予该文件执行权限，具体问文件名根据下载时最新版决定</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chmod a+x Shadowsocks-Qt5-3.0.0-x86_64.AppImage</span><br><span class="line">./Shadowsocks-Qt5-3.0.0-x86_64.AppImage</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1 id="二、配置qt5"><a href="#二、配置qt5" class="headerlink" title="二、配置qt5"></a>二、配置qt5</h1><ul>
+<li>具体配置见如下链接 ，使用和windows版本差不多具体不再详述<br><a href="https://github.com/shadowsocks/shadowsocks-qt5/wiki/使用手册" target="_blank" rel="noopener">https://github.com/shadowsocks/shadowsocks-qt5/wiki/使用手册</a></li>
+</ul>
+<h1 id="三、生成PAC文件"><a href="#三、生成PAC文件" class="headerlink" title="三、生成PAC文件"></a>三、生成PAC文件</h1><ul>
+<li>默认qt5开启后是全局代理</li>
+</ul>
+<h2 id="第一种文件生成方案"><a href="#第一种文件生成方案" class="headerlink" title="第一种文件生成方案"></a>第一种文件生成方案</h2><ol>
+<li><p>安装pip</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install python-pip</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装GenPAC<br>GenPAC 是基于gfwlist的代理自动配置（Proxy Auto-config）文件生成工具，支持自定义规则。</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo pip install genpac</span><br><span class="line">pip install --upgrade genpac</span><br></pre></td></tr></table></figure>
+<p>  genpac 的详细使用说明见 GitHub - Wiki：<a href="https://github.com/JinnLynn/GenPAC" target="_blank" rel="noopener">https://github.com/JinnLynn/GenPAC</a></p>
+<ol>
+<li>下载gfwlist生成pac文件 此处生成的文件名为autoproxy.pac</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">genpac --pac-proxy &quot;SOCKS5 127.0.0.1:1080&quot; --gfwlist-proxy=&quot;SOCKS5 127.0.0.1:1080&quot; --gfwlist-	url=https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt --output=&quot;autoproxy.pac&quot;</span><br><span class="line">s://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt --output=&quot;autoproxy.pac&quot;</span><br></pre></td></tr></table></figure>
+<h2 id="第二种文件生成方案"><a href="#第二种文件生成方案" class="headerlink" title="第二种文件生成方案"></a>第二种文件生成方案</h2><blockquote>
+<p>使用这种方案生成PAC文件后请禁用此插件<br>如果不需要全局配置代理，也可以在网页上单独使用此插件来实现网页的代理使用，这种方案不在本文范围，如需要请读者自行搜索</p>
+</blockquote>
+<ol>
+<li>安装SwitchyOmega插件（Chrome和Firfox浏览器都能安装）</li>
+<li>进入插件设置界面 点击 右下角  &gt;  Add a rule list<br><img src="http://pd0s0lhel.bkt.clouddn.com/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20181115144753.png" height="80%" width="80%">  </li>
+<li>在 Rule List URL 位置 输入链接<br><a href="https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt" target="_blank" rel="noopener">https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt</a><br>  点击Download Profile Now<br>  <img src="http://pd0s0lhel.bkt.clouddn.com/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20181115145117.png" height="80%" width="80%"></li>
+<li>点击右上角Export PAC &gt; 出现新网页内容如下图所示<br><img src="http://pd0s0lhel.bkt.clouddn.com/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20181115150007.png" height="70%" width="70%"></li>
+<li>将网页内容复制 本地新建一个autoproxy.pac文本</li>
+</ol>
+<h1 id="四、配置PAC文件"><a href="#四、配置PAC文件" class="headerlink" title="四、配置PAC文件"></a>四、配置PAC文件</h1><ol>
+<li>上述两种方式生成的.pac文件的内容其实是一样的</li>
+<li>点击：System settings &gt; Network &gt; Network Proxy，选择 Method 为 Automatic，设置 Configuration URL 为 autoproxy.pac 文件的路径，点击 Apply System Wide。<br>格式如：file:///home/{user}/autoproxy.pac<br>  <img src="http://pd0s0lhel.bkt.clouddn.com/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20181115154151.png" height="50%" width="50%"></li>
+</ol>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ubuntu/" rel="tag"># ubuntu</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/18/hello-world/" rel="next" title="Hello World">
+                <i class="fa fa-chevron-left"></i> Hello World
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Yang Yanzhe</p>
+              <p class="site-description motion-element" itemprop="description">do good, have fun.</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                    <span class="site-state-item-count">1</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、安装shadowsocks-qt5"><span class="nav-number">1.</span> <span class="nav-text">一、安装shadowsocks-qt5</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、配置qt5"><span class="nav-number">2.</span> <span class="nav-text">二、配置qt5</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、生成PAC文件"><span class="nav-number">3.</span> <span class="nav-text">三、生成PAC文件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#第一种文件生成方案"><span class="nav-number">3.1.</span> <span class="nav-text">第一种文件生成方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二种文件生成方案"><span class="nav-number">3.2.</span> <span class="nav-text">第二种文件生成方案</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四、配置PAC文件"><span class="nav-number">4.</span> <span class="nav-text">四、配置PAC文件</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yang Yanzhe</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Muse</a> v6.4.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
